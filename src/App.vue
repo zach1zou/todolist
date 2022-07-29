@@ -1,32 +1,58 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+  <div>
+    <button @click="changeColor">换肤</button>
+    <div class="todoapp">
+      <todo-header></todo-header>
+      <todo-main></todo-main>
+      <todo-footer></todo-footer>
+    </div>
+    <!-- 自己封装组件 -->
+    <buttonVue></buttonVue>
+    <buttonVue type="success" title="成功按钮"></buttonVue>
+    <buttonVue type="danger" title="危险按钮"></buttonVue>
   </div>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import buttonVue from './components/buttonVue.vue'
+import TodoFooter from './components/TodoFooter.vue' // shift + alt + 下
+import TodoHeader from './components/TodoHeader.vue' // shift + alt + 下
+import TodoMain from './components/TodoMain.vue'
+// shift + alt + 下
+export default {
+  data() {
+    return {}
+  },
 
-nav {
-  padding: 30px;
+  components: {
+    TodoFooter,
+    TodoHeader,
+    TodoMain,
+    buttonVue
+  },
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  created() {
+    this.changeColor()
+  },
 
-    &.router-link-exact-active {
-      color: #42b983;
+  methods: {
+    changeColor() {
+      const getRandomColor = function () {
+        return (
+          'rgb(' +
+          Math.round(Math.random() * 255) +
+          ',' +
+          Math.round(Math.random() * 255) +
+          ',' +
+          Math.round(Math.random() * 10) +
+          ')'
+        )
+      }
+
+      this.$store.commit('setting/changeColorFn', getRandomColor())
     }
   }
 }
-</style>
+</script>
+
+<style scoped></style>
